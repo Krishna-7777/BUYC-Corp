@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
+import {useNavigate} from 'react-router-dom'
 
 function Register() {
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const [type, setType] = useState('user');
+    const navigate=useNavigate()
 
     const handleNameChange = (e) => {
         setName(e.target.value);
@@ -40,7 +42,8 @@ function Register() {
             body: JSON.stringify(registrationData),
         })
         data=await data.json()
-        alert(data.msg)   
+        alert(data.msg)
+        navigate('/login')   
     };
 
     return (
