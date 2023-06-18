@@ -16,7 +16,7 @@ OemRoutes.post('/search', async (ask, give) => {
         console.log(error)
     }}) 
 
-OemRoutes.get('/distinct-years', async (ask, give) => {
+OemRoutes.get('/years', async (ask, give) => {
     try {
         const distinctYears = await OemModel.distinct('Year')
         give.send(distinctYears);
