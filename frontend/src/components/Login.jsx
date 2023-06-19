@@ -35,10 +35,12 @@ function Login() {
         localStorage.setItem("name",data.name) 
         localStorage.setItem("token",data.token) 
         if(data.type=='user'){
-          navigate('./market-place')
+          navigate('../market-place')
+          document.location.reload()
         }
         if(data.type=='dealer'){
-          navigate('./sell-cars')
+          navigate('../sell-cars')   
+          document.location.reload()
         }
 
     };
