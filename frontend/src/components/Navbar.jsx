@@ -11,13 +11,13 @@ function NavBar() {
   const handleLogout = () => {
     localStorage.clear();
     setIsLogin(!isLogin)
-    navigate("../home")
+    navigate("../")
     document.location.reload()
   };
 
   return (
     <>
-      <Link to="/home">Home</Link>
+      <Link to="/">Home</Link>
       {isLogin && <Link to="/market-place">Market Place</Link>}
       {isLogin && data === 'dealer' && <Link to="/sell-cars">Sell Cars</Link>}
       {!isLogin && <Link to="/login">Login</Link>}
