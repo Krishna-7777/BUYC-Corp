@@ -10,7 +10,7 @@ OemRoutes.post('/search', async (ask, give) => {
             Make: { $regex: searchTerms[0],$options:'i' },
             Year: Number(searchTerms[2]) ,
             Model: { $regex: searchTerms[1] ,$options:'i'}
-          })
+          }).limit(20)
       give.send(cars);
     } catch (error) {
         console.log(error)
