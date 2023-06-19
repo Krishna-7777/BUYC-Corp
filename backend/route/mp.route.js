@@ -1,6 +1,7 @@
 const express = require("express");
 const jwt= require("jsonwebtoken")
 const { MpModel } = require("../models/mp.model");
+const { OemModel } = require("../models/oem.model");
 
 const MpRoutes=express.Router();
 
@@ -28,7 +29,15 @@ let payload={
       
 })
 
-MpRoutes.get("/cars",async())
+MpRoutes.get("/cars",async(ask,give)=>{
+  let data=await MpModel.find({},{CarId:1,ImgUrl:1,_id:0});
+  let cdata=[]
+  for(let i in data){
+    let car= await OemModel.findOne({_id:data[i].CarId},{Year:1,Make:1,Model:1,Category:1,_id:0})
+    cdata.push({Data:data[i],Car:car})
+  }
+  give.send(cdata)
+})
 
 module.exports={
     MpRoutes
