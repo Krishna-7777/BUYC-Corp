@@ -1,13 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Component } from 'react';
 
 function SellCar() {
   const [years, setYears] = useState([]);
   const [selectedYear, selectYear] = useState(1992);
   const [OEM, setOem] = useState("");
   const [Model, setModel] = useState("");
-  const [response, setResponse]=useState([])
-  const [carId, setCarId]=useState("")
+  const [response, setResponse] = useState([])
+  const [carId, setCarId] = useState("")
+  const [imgUrl, setImgUrl] = useState("")
+  class CloudinaryUploadWidget extends Component {
+    componentDidMount() {
+      var myWidget = window.cloudinary.createUploadWidget(
+        {
+          cloudName: "dwmo5ktpw",
+          uploadPreset: "ml_default"
+        },
+        (error, result) => {
+          if (!error && result && result.event === "success") {
+            setImgUrl(result.info.secure_url)
+          }
+        }
+      );
+      document.getElementById("upload_widget").addEventListener(
+        "click",
+        function () {
+          myWidget.open();
+        },
+        false
+      );
+    }
 
+    render() {
+      return (
+        <button id="upload_widget" className="cloudinary-button">
+          Upload
+        </button>
+      );
+    }
+  }
   useEffect(() => {
     const fetchYears = async () => {
       try {
@@ -31,9 +61,22 @@ function SellCar() {
   const handleModel = (event) => {
     setModel(event.target.value);
   };
-  const handleCarId= (event)=> {
+  const handleCarId = (event) => {
     setCarId(event.target.id);
   };
+  const handleListing = async (event) => {
+    let listing = await fetch("https://buyc-corp-g63s.onrender.com/cars", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization':localStorage.getItem("token")
+      },
+      body: JSON.stringify({CarId:carId,ImgUrl:imgUrl}),
+    })
+    listing = await listing.json()
+    alert(listing.msg)
+    window.location.reload()
+  }
 
   const handleSearch = async (e) => {
     e.preventDefault()
@@ -42,9 +85,9 @@ function SellCar() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify([OEM,Model,selectedYear]),
+      body: JSON.stringify([OEM, Model, selectedYear]),
     })
-    carData=await carData.json()
+    carData = await carData.json()
     setResponse(carData)
   };
 
@@ -60,16 +103,16 @@ function SellCar() {
         </select>
         <input type="text" placeholder='Search  OEM' onChange={handleOEM} />
         <input type="text" placeholder='Search  Car Model' onChange={handleModel} />
-        <input type="submit" value="Search" required/>
+        <input type="submit" value="Search" required />
       </form>
-    {!!response.length&&<table>
-    <thead>
+      {!!response.length && <table>
+        <thead>
           <tr>
             <th>Make</th>
             <th>Model</th>
             <th>Year</th>
             <th>Category</th>
-            <th>Select Deatails</th>
+            <th>Select Details</th>
           </tr>
         </thead>
         <tbody>
@@ -83,10 +126,11 @@ function SellCar() {
             </tr>
           ))}
         </tbody>
-    </table>}
-    <hr />
-    
-    <input type="submit" value="List My Car"/>
+      </table>}
+      <hr />
+      <CloudinaryUploadWidget />
+      <hr />
+      {carId && imgUrl && <input type="submit" value="List My Car" onClick={handleListing} />}
     </div>
 
   );
