@@ -3,6 +3,7 @@ const cors=require('cors')
 const { connect } = require("./config/db")
 const { userRoutes } = require("./route/user.route")
 const { OemRoutes } = require("./route/oem.route")
+const { MpRoutes } = require("./route/mp.route")
 
 const app=express()
 
@@ -17,6 +18,8 @@ app.get('/',(ask,give)=>{
 app.use('/',userRoutes)
 
 app.use('/',OemRoutes)
+
+app.use('/',MpRoutes)
 
 app.listen(4000,()=>{
     try {

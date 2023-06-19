@@ -6,7 +6,7 @@ const schema=mongoose.Schema({
     DealerId: String
   })
 
-const OemModel=mongoose.model("mp",schema)
+const MpModel=mongoose.model("mp",schema)
 
 module.exports={
     MpModel
