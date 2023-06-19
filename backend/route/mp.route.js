@@ -28,6 +28,8 @@ let payload={
       
 })
 
+MpRoutes.get("/cars",async())
+
 module.exports={
     MpRoutes
 }

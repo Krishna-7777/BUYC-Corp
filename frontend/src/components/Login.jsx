@@ -34,11 +34,11 @@ function Login() {
         localStorage.setItem("type",data.type)   
         localStorage.setItem("name",data.name) 
         localStorage.setItem("token",data.token) 
-        if(data.type=='user'){
+        if(data.type==='user'){
           navigate('../market-place')
           document.location.reload()
         }
-        if(data.type=='dealer'){
+        if(data.type==='dealer'){
           navigate('../sell-cars')   
           document.location.reload()
         }
